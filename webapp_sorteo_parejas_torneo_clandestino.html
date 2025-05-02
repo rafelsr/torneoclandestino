@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sorteo Torneo Pádel Clandestino</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #00bfff;
+      --primary-hover: #008fcc;
+      --accent-color: #0ca663;
+      --text-color: white;
+      --glass-bg: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--text-color);
+      text-align: center;
+      background: url('fondowebapp.png') no-repeat center center fixed;
+      background-size: cover;
+      letter-spacing: 0.5px;
+      min-height: 100vh;
+    }
+    
+    .container {
+      padding: 20px;
+      max-width: 960px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    img.logo {
+      width: 80%;
+      max-width: 400px;
+      margin: 20px auto;
+      display: block;
+      filter: drop-shadow(0 0 10px rgba(0, 191, 255, 0.3));
+      transition: transform 0.3s ease;
+    }
+    
+    img.logo:hover {
+      transform: scale(1.02);
+    }
+    
+    h1 {
+      font-size: clamp(32px, 5vw, 48px);
+      margin: 24px 0;
+      font-weight: 800;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, #00bfff 0%, #0ca663 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: titleEntrance 1s ease-out;
+    }
+    
+    @keyframes titleEntrance {
+      from {
+        transform: translateY(-20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    .btn-sorteo {
+      padding: 15px 32px;
+      font-size: 18px;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      margin: 30px auto;
+      display: block;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-sorteo:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+    }
+    
+    .btn-sorteo:active {
+      transform: translateY(1px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn-sorteo::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 5px;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.5);
+      opacity: 0;
+      border-radius: 100%;
+      transform: scale(1, 1) translate(-50%, -50%);
+      transform-origin: 50% 50%;
+    }
+    
+    .btn-sorteo:focus:not(:active)::after {
+      animation: ripple 1s ease-out;
+    }
+    
+    @keyframes ripple {
+      0% {
+        transform: scale(0, 0);
+        opacity: 1;
+      }
+      20% {
+        transform: scale(25, 25);
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+        transform: scale(40, 40);
+      }
+    }
+    
+    #cuentaAtras {
+      font-size: clamp(48px, 10vw, 72px);
+      margin: 20px 0;
+      font-weight: 800;
+      color: var(--primary-color);
+      text-shadow: 0 0 20px rgba(0, 191, 255, 0.7);
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .grupos-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .grupo {
+      flex: 1 1 300px;
+      margin: 10px;
+      padding: 25px;
+      background: var(--glass-bg);
+      color: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      transition: all 0.3s ease;
+      max-width: 420px;
+    }
+    
+    .grupo:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.3);
+    }
+    
+    .grupo h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--primary-color);
+      border-bottom: 2px solid var(--glass-border);
+      padding-bottom: 10px;
+    }
+    
+    .grupo ul {
+      list-style-type: none;
+      padding: 0;
+      width: 90%;
+      margin: 0 auto;
+    }
+    
+    .grupo li {
+      margin: 15px 0;
+      padding: 12px 15px;
+      text-align: left;
+      font-weight: 400;
+      letter-spacing: 1px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid var(--primary-color);
+      transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .grupo li:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(5px);
+    }
+    
+    .grupo li .numero {
+      font-weight: 800;
+      color: var(--primary-color);
+      margin-right: 10px;
+    }
+    
+    .grupo li .pareja {
+      flex-grow: 1;
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.6s forwards;
+    }
+    
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .shake {
+      animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    
+    @keyframes shake {
+      10%, 90% { transform: translate3d(-1px, 0, 0); }
+      20%, 80% { transform: translate3d(2px, 0, 0); }
+      30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+      40%, 60% { transform: translate3d(4px, 0, 0); }
+    }
+    
+    .resultado-sorteo {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-out;
+    }
+    
+    .resultado-sorteo.show {
+      max-height: 2000px;
+    }
+    
+    footer {
+      margin-top: 50px;
+      padding: 20px;
+      font-size: 14px;
+      opacity: 0.7;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 15px;
+      }
+      
+      .grupo {
+        padding: 15px;
+        margin: 5px;
+      }
+      
+      .grupo li {
+        padding: 10px;
+      }
+      
+      h1 {
+        margin: 15px 0;
+      }
+    }
+    
+    /* Accessibility improvements */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    
+    button:focus {
+      outline: 3px solid #fff;
+      outline-offset: 3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo-container">
+        <img src="torneo_padel_clandestino.png" alt="Logo Torneo Pádel Clandestino" class="logo">
+      </div>
+      <h1>Sorteo de Parejas</h1>
+    </header>
+    
+    <main>
+      <button id="btnSorteo" class="btn-sorteo" aria-label="Iniciar sorteo de parejas">
+        INICIAR SORTEO
+      </button>
+      
+      <div id="cuentaAtras" aria-live="polite"></div>
+      
+      <div class="resultado-sorteo" id="resultadoSorteo">
+        <div class="grupos-container">
+          <div class="grupo" id="grupoA">
+            <h2>Grupo A</h2>
+            <ul id="listaGrupoA"></ul>
+          </div>
+          
+          <div class="grupo" id="grupoB">
+            <h2>Grupo B</h2>
+            <ul id="listaGrupoB"></ul>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <footer>
+      <p>Torneo Pádel Clandestino © 2025</p>
+      <p class="version">@rafelsr v.0.9</p>
+    </footer>
+  </div>
+
+  <script>
+    // Datos de las parejas
+    const parejas = [
+      "BENITO - RAFEL",
+      "MIGUEL A. - ISAAC",
+      "DANI - JONADAB",
+      "MIKE - CRISTIAN",
+      "NIKO - VICENTE",
+      "JUAN - MATEU",
+      "GUSTAVO - JUANMA",
+      "EMILIO - JORGE",
+      "MATEU - CARLOS",
+      "ALEX - MIGUEL",
+      "AGUS - JUAN C."
+    ];
+
+    // Referencias DOM
+    const btnSorteo = document.getElementById("btnSorteo");
+    const cuentaAtras = document.getElementById("cuentaAtras");
+    const listaGrupoA = document.getElementById("listaGrupoA");
+    const listaGrupoB = document.getElementById("listaGrupoB");
+    const resultadoSorteo = document.getElementById("resultadoSorteo");
+
+    // Evento principal
+    btnSorteo.addEventListener("click", iniciarSorteo);
+
+    function iniciarSorteo() {
+      // Reset previo
+      resetearSorteo();
+      
+      // Deshabilitar botón
+      btnSorteo.disabled = true;
+      btnSorteo.textContent = "SORTEANDO...";
+      
+      // Animar container
+      document.querySelectorAll('.grupo').forEach(grupo => {
+        grupo.classList.add('shake');
+      });
+      
+      // Iniciar cuenta atrás
+      let cuenta = 3;
+      cuentaAtras.textContent = cuenta;
+      
+      const intervalo = setInterval(() => {
+        cuenta--;
+        
+        if (cuenta > 0) {
+          cuentaAtras.textContent = cuenta;
+        } else {
+          // Finalizar cuenta atrás
+          clearInterval(intervalo);
+          cuentaAtras.textContent = "¡SORTEANDO!";
+          
+          // Realizar el sorteo con delay para efecto visual
+          setTimeout(() => {
+            realizarSorteo();
+            cuentaAtras.textContent = "";
+            btnSorteo.disabled = false;
+            btnSorteo.textContent = "VOLVER A SORTEAR";
+            
+            // Quitar animación de shake
+            document.querySelectorAll('.grupo').forEach(grupo => {
+              grupo.classList.remove('shake');
+            });
+            
+            // Mostrar resultados
+            resultadoSorteo.classList.add('show');
+          }, 1000);
+        }
+      }, 1000);
+    }
+
+    function realizarSorteo() {
+      // Barajar el array de parejas
+      const parejasSorteadas = [...parejas].sort(() => Math.random() - 0.5);
+      
+      // Asignar exactamente 5 parejas al grupo A y 6 parejas al grupo B
+      const parejasGrupoA = parejasSorteadas.slice(0, 5);
+      const parejasGrupoB = parejasSorteadas.slice(5);
+      
+      // Añadir parejas al grupo A (siempre 5)
+      parejasGrupoA.forEach((pareja, index) => {
+        const delay = index * 200; // Retraso para efecto cascada
+        setTimeout(() => {
+          agregarPareja(listaGrupoA, pareja, index + 1, "A");
+        }, delay);
+      });
+      
+      // Añadir parejas al grupo B (siempre 6)
+      parejasGrupoB.forEach((pareja, index) => {
+        const delay = index * 200; // Retraso para efecto cascada
+        setTimeout(() => {
+          agregarPareja(listaGrupoB, pareja, index + 1, "B");
+        }, delay);
+      });
+    }
+
+    function agregarPareja(lista, pareja, posicion, grupo) {
+      const item = document.createElement("li");
+      
+      // Estructura interna del elemento de lista
+      item.innerHTML = `
+        <span class="numero">${posicion}${grupo}</span>
+        <span class="pareja">${pareja}</span>
+      `;
+      
+      lista.appendChild(item);
+      
+      // Añadir animación después de un pequeño delay
+      setTimeout(() => {
+        item.classList.add('fade-in');
+      }, 50);
+    }
+
+    function resetearSorteo() {
+      // Limpiar listas
+      listaGrupoA.innerHTML = "";
+      listaGrupoB.innerHTML = "";
+      cuentaAtras.textContent = "";
+      
+      // Ocultar resultados
+      resultadoSorteo.classList.remove('show');
+    }
+    
+    // Añadir listener para tecla Escape para reiniciar
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        resetearSorteo();
+        btnSorteo.disabled = false;
+        btnSorteo.textContent = "INICIAR SORTEO";
+      }
+    });
+  </script>
+</body>
+</html>
